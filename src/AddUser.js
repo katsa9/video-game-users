@@ -17,15 +17,19 @@ class AddUser extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const userExists = this.checkUserExists(this.state.user.username);
-    if(!userExists) {
+    const userExists2 = this.checkUserExists(this.state.user.username);
+    if(!userExists2) {
       this.props.onAdd(this.state.user);
     } 
 
-    /**How does this work?? */
-    this.setState(() => ({
+    /**Can also be written by object destructuring because the variable we are using has the same name as the object field.
+     this.setState(() => ({
       userExists,
     }));
+    */
+    this.setState({
+      userExists: userExists2,
+    });
   }
 
   checkUserExists = currentUsername => {
@@ -42,6 +46,10 @@ class AddUser extends Component {
   handleInputChange = event => {
     const { name, value } = event.target;
 
+    /**
+     * This is using the rest parameter to say, take the fields of the object (i.e. user{} and userExists) and merge it with the given object(user). This is then done another level down as well to take the rest of the fields of the user object and update the single field. This is done by getting the object field like this: [name]
+     * 
+     */
     this.setState(currState => ({
       ...currState,
       user: {
