@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import AddUser from './AddUser.js';
 import User from './User.js';
 // import PropTypes from 'prop-types';
 
 class UserList extends Component {
     state = {
-        users: [],
-        gamesHidden: false
+        showGamesPlayed: true
     }
 
-    gamesShownHandler = () => {
-      this.setState(previousState => (
-        this.gamesHidden = !previousState
-      ));
-    }
+    toggleGamesShown = () => {
+      this.setState(previousState => ({
+        showGamesPlayed: !previousState.showGamesPlayed
+      }));
+    };
 
     onAddUser = (newUser) => {
       this.setState(previousState => ({users: [...previousState.users, newUser]}));
@@ -24,17 +22,25 @@ class UserList extends Component {
     }
 
     render() {
+      const {showGamesPlayed } = this.state;
+      const {users} = this.props;
+
+      const gamesPlayedButton = (
+        <div>
+        <button className="smallButton" onClick={this.toggleGamesShown}>
+          {showGamesPlayed ? 'Hide ' : 'Show '}
+          the Number of Games Played
+        </button>
+        </div>
+      );
+
         return (
           <div>
-            <AddUser 
-            onAdd={this.onAddUser}
-            userExists={this.checkUserExists}
-            />
+          <h1>Users</h1>
+          {users && users.length > 0 ? gamesPlayedButton : ''} 
             <ol>
-              {this.state.users.map((item, index) => <User key={index} user={item} showGames={this.state.gamesHidden}/>)}
+              {users.map(user => <User key={user.username} user={user} showGamesPlayed={showGamesPlayed}/>)}
             </ol>
-            <button onClick={this.gamesShownHandler}>{this.state.gamesHidden === true ?
-              "Show games" : "Hide games"}</button>
           </div>
         );
     };

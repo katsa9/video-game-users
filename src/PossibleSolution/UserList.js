@@ -32,9 +32,9 @@ class UserList extends Component {
         <h1>Users</h1>
         {users && users.length > 0 ? gamesPlayedButton : ''}
         <ol>
-          {users.map(user => (
+          {users.map(user => 
             <User key={user.username} user={user} showGamesPlayed={showGamesPlayed} />
-          ))}
+          )}
         </ol>
       </div>
     );

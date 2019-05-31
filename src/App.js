@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import UserList from './UserList.js';
+import AddUser from './AddUser.js';
 
 /*
 This exercise will help you put together and practice all of the concepts you've
@@ -12,6 +13,17 @@ The instructions for this project are located in the `instructions.md` file.
 */
 
 class App extends Component {
+  state = {
+    users: []
+  }
+
+  addNewUser = user => {
+    user.numGamesPlayed = 0;
+    this.setState(currState => ({
+      users: [...currState.users,user],
+    }));
+  }
+
   render() {
     return (
       <div className="App">
@@ -20,7 +32,13 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h1>User Gaming List</h1>
-        <UserList />
+        <AddUser 
+            users={this.state.users}
+            onAdd={this.addNewUser}
+            />
+        <UserList 
+        users={this.state.users}
+        />
       </div>
     );
   }
